@@ -1,3 +1,4 @@
 atproto
 feedparser
 google-generativeai
+nltk
