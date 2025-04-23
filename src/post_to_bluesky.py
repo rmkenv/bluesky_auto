@@ -7,13 +7,6 @@ import json
 import hashlib
 import re
 
-# First, let's fix the NLTK setup
-def setup_nltk():
-    import nltk
-    # Download necessary NLTK data with explicit paths
-    nltk.download('punkt', quiet=True)
-    nltk.download('stopwords', quiet=True)
-
 # Create a simpler hashtag generation function that doesn't rely on external APIs
 def extract_relevant_hashtags(text):
     # Common words to filter out
@@ -52,12 +45,12 @@ def generate_hashtags(title, description):
     relevant_words = extract_relevant_hashtags(full_text)
 
     # Convert to hashtags (take up to 5)
-    hashtags = [f"#{word}" for word in relevant_words[:5]]
+    hashtags = [word for word in relevant_words[:5]]  # No # prefix here
 
     # If we don't have enough hashtags, add some generic ones based on the RSS feed topic
     if len(hashtags) < 3:
-        generic_tags = ["#ClimateChange", "#Environment", "#ClimateAction",
-                        "#ClimateNews", "#GlobalWarming"]
+        generic_tags = ["ClimateChange", "Environment", "ClimateAction",
+                        "ClimateNews", "GlobalWarming"]
         hashtags.extend(generic_tags[:5-len(hashtags)])
 
     return hashtags[:5]  # Ensure we return at most 5 hashtags
@@ -77,45 +70,70 @@ def create_bluesky_post(entry, hashtags):
     title = entry.get('title', '')
     link = entry.get('link', '')
 
-    # Create post content with title and hashtags
-    # The link will be added as a facet (hyperlink) later
-    content = f"{title}\n\n{link}\n\n{' '.join(hashtags)}"
+    # Format hashtags with # for display
+    formatted_hashtags = [f"#{tag}" for tag in hashtags]
+
+    # Create post content with title, link and hashtags
+    content = f"{title}\n\n{link}\n\n{' '.join(formatted_hashtags)}"
 
     # Ensure content doesn't exceed Bluesky's character limit (300)
     if len(content) > 300:
         # Truncate title if necessary
-        available_space = 300 - len(link) - len(' '.join(hashtags)) - 4  # 4 for newlines
+        available_space = 300 - len(link) - len(' '.join(formatted_hashtags)) - 4  # 4 for newlines
         title = title[:available_space] + '...'
-        content = f"{title}\n\n{link}\n\n{' '.join(hashtags)}"
+        content = f"{title}\n\n{link}\n\n{' '.join(formatted_hashtags)}"
 
     return content
 
-def post_to_bluesky(client, content, link):
-    # Find the position of the link in the content
-    link_start = content.find(link)
+def create_facets(content, link, hashtags):
+    facets = []
 
+    # Add URL facet
+    link_start = content.find(link)
     if link_start != -1:
-        # Create a facet (hyperlink) for the URL
-        facets = [
-            {
+        facets.append({
+            "index": {
+                "byteStart": link_start,
+                "byteEnd": link_start + len(link)
+            },
+            "features": [
+                {
+                    "$type": "app.bsky.richtext.facet#link",
+                    "uri": link
+                }
+            ]
+        })
+
+    # Add hashtag facets
+    for tag in hashtags:
+        # Look for the hashtag in the content
+        hashtag_text = f"#{tag}"
+        start_pos = content.find(hashtag_text)
+
+        while start_pos != -1:
+            facets.append({
                 "index": {
-                    "byteStart": link_start,
-                    "byteEnd": link_start + len(link)
+                    "byteStart": start_pos,
+                    "byteEnd": start_pos + len(hashtag_text)
                 },
                 "features": [
                     {
-                        "$type": "app.bsky.richtext.facet#link",
-                        "uri": link
+                        "$type": "app.bsky.richtext.facet#tag",
+                        "tag": tag
                     }
                 ]
-            }
-        ]
+            })
+            # Look for more occurrences of the same hashtag
+            start_pos = content.find(hashtag_text, start_pos + 1)
 
-        # Post with the facet to create a hyperlink
-        return client.send_post(text=content, facets=facets)
-    else:
-        # Fallback if link not found in content
-        return client.send_post(text=content)
+    return facets
+
+def post_to_bluesky(client, content, link, hashtags):
+    # Create facets for both the URL and hashtags
+    facets = create_facets(content, link, hashtags)
+
+    # Post with the facets to create hyperlinks
+    return client.send_post(text=content, facets=facets)
 
 def main():
     try:
@@ -150,18 +168,18 @@ def main():
             content = create_bluesky_post(entry, hashtags)
 
             try:
-                # Post to Bluesky with hyperlinked URL
-                post_to_bluesky(client, content, entry.link)
+                # Post to Bluesky with hyperlinked URL and hashtags
+                post_to_bluesky(client, content, entry.link, hashtags)
 
                 # Save entry as posted
                 posted_entries[entry_id] = {
                     'title': entry.title,
                     'date_posted': datetime.now(timezone.utc).isoformat(),
-                    'hashtags': hashtags
+                    'hashtags': [f"#{tag}" for tag in hashtags]
                 }
 
                 print(f"Successfully posted: {entry.title}")
-                print(f"Generated hashtags: {' '.join(hashtags)}")
+                print(f"Generated hashtags: {' '.join([f'#{tag}' for tag in hashtags])}")
 
                 # Wait between posts to avoid rate limiting
                 time.sleep(2)
