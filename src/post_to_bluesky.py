@@ -8,7 +8,6 @@ def main():
         # --- UPDATED: List of RSS feed URLs ---
         rss_urls = [
             "https://www.theguardian.com/environment/climate-crisis/rss",
-            "https://feeds.bbci.co.uk/news/technology/rss.xml",
             "https://www.nature.com/nclimate.rss" # Added Nature Climate Change feed
             # Add more URLs as needed
         ]
