@@ -1,118 +1,50 @@
 import os
-import feedparser  # You'll need to install this: pip install feedparser
+import feedparser
 import time
-from atproto import Client  # You'll need to install this: pip install atproto
+from atproto import Client
 from datetime import datetime, timezone
 import json
 import hashlib
-import google.generativeai as genai  # You'll need to install this: pip install google-generativeai
 import re
-import nltk  # You'll need to install this: pip install nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 
-def setup_gemini():
-    genai.configure(api_key=os.environ['GEMINI_API_KEY'])
-    model = genai.GenerativeModel('gemini-pro')
-    return model
-
-def load_posted_entries():
-    try:
-        with open('posted_entries.json', 'r') as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
-
-def save_posted_entries(posted):
-    with open('posted_entries.json', 'w') as f:
-        json.dump(posted, f)
-
+# First, let's fix the NLTK setup
 def setup_nltk():
-    # Download necessary NLTK data
-    try:
-        nltk.data.find('tokenizers/punkt')
-    except LookupError:
-        nltk.download('punkt', quiet=True)
+    import nltk
+    # Download necessary NLTK data with explicit paths
+    nltk.download('punkt', quiet=True)
+    nltk.download('stopwords', quiet=True)
 
-    try:
-        nltk.data.find('corpora/stopwords')
-    except LookupError:
-        nltk.download('stopwords', quiet=True)
-
+# Create a simpler hashtag generation function that doesn't rely on external APIs
 def extract_relevant_hashtags(text):
-    # Tokenize text
-    words = word_tokenize(text.lower())
-
-    # Get stopwords
-    stop_words = set(stopwords.words('english'))
-
-    # Additional words to filter out (common words, articles, etc.)
-    additional_filters = {
-        'said', 'says', 'according', 'like', 'just', 'now', 'get', 'one',
-        'two', 'three', 'new', 'time', 'year', 'years', 'day', 'days',
-        'week', 'weeks', 'month', 'months', 'today', 'tomorrow', 'yesterday',
-        'say', 'said', 'says', 'told', 'report', 'reported', 'reports',
-        'people', 'person', 'man', 'woman', 'men', 'women'
+    # Common words to filter out
+    common_words = {
+        'the', 'and', 'for', 'that', 'this', 'with', 'from', 'have', 'has', 'had',
+        'are', 'were', 'was', 'will', 'would', 'could', 'should', 'been', 'being',
+        'said', 'says', 'according', 'like', 'just', 'now', 'get', 'one', 'two',
+        'three', 'new', 'time', 'year', 'years', 'day', 'days', 'week', 'weeks',
+        'month', 'months', 'today', 'tomorrow', 'yesterday', 'say', 'said', 'says',
+        'told', 'report', 'reported', 'reports', 'people', 'person', 'man', 'woman',
+        'men', 'women', 'they', 'their', 'them', 'what', 'when', 'where', 'why',
+        'how', 'who', 'which', 'there', 'here', 'than', 'then', 'some', 'more',
+        'most', 'many', 'much', 'such', 'only', 'very', 'also', 'but', 'not',
+        'can', 'about', 'into', 'over', 'after', 'before', 'between', 'under',
+        'during', 'through', 'above', 'below', 'since', 'until', 'while'
     }
 
-    # Combine all filters
-    all_filters = stop_words.union(additional_filters)
+    # Simple word extraction without NLTK
+    # Convert to lowercase and split by non-alphanumeric characters
+    words = re.findall(r'\b[a-zA-Z0-9]{4,}\b', text.lower())
 
-    # Filter words
+    # Filter out common words and short words
     relevant_words = [word for word in words if
-                     word.isalnum() and  # Only alphanumeric
-                     len(word) > 3 and   # Longer than 3 chars
-                     word not in all_filters and  # Not in our filter list
-                     not word.isdigit()]  # Not just a number
+                     word not in common_words and
+                     len(word) > 3 and
+                     not word.isdigit()]
 
     # Return unique words
     return list(set(relevant_words))
 
-def generate_hashtags_with_gemini(model, title, description):
-    # First try with Gemini
-    prompt = f"""
-    Generate 5 relevant hashtags for a social media post with the following content:
-    Title: {title}
-    Description: {description}
-
-    Rules for hashtags:
-    1. No spaces in hashtags
-    2. Use camelCase for multiple words
-    3. Keep them relevant to the content
-    4. No special characters except numbers
-    5. Avoid common words, names, articles, prepositions
-    6. Focus on topic-specific terms and keywords
-    7. Return only the hashtags, one per line, starting with #
-    """
-
-    try:
-        response = model.generate_content(prompt)
-        hashtags = response.text.strip().split('\n')
-
-        # Clean and validate hashtags
-        cleaned_hashtags = []
-        for tag in hashtags:
-            # Remove any extra # symbols and spaces
-            tag = tag.strip().replace(' ', '')
-            if not tag.startswith('#'):
-                tag = f"#{tag}"
-            # Validate hashtag format
-            if re.match(r'^#[a-zA-Z0-9]+$', tag):
-                cleaned_hashtags.append(tag)
-
-        # If we got good hashtags from Gemini, return them
-        if len(cleaned_hashtags) >= 3:
-            return cleaned_hashtags[:5]  # Return maximum 5 hashtags
-
-        # Otherwise fall back to our extraction method
-        return fallback_hashtag_generation(title, description)
-
-    except Exception as e:
-        print(f"Error generating hashtags with Gemini: {str(e)}")
-        # Fallback to our extraction method
-        return fallback_hashtag_generation(title, description)
-
-def fallback_hashtag_generation(title, description):
+def generate_hashtags(title, description):
     # Combine title and description for better context
     full_text = f"{title} {description}"
 
@@ -124,10 +56,22 @@ def fallback_hashtag_generation(title, description):
 
     # If we don't have enough hashtags, add some generic ones based on the RSS feed topic
     if len(hashtags) < 3:
-        generic_tags = ["#ClimateChange", "#Environment", "#ClimateAction"]
+        generic_tags = ["#ClimateChange", "#Environment", "#ClimateAction",
+                        "#ClimateNews", "#GlobalWarming"]
         hashtags.extend(generic_tags[:5-len(hashtags)])
 
-    return hashtags
+    return hashtags[:5]  # Ensure we return at most 5 hashtags
+
+def load_posted_entries():
+    try:
+        with open('posted_entries.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+
+def save_posted_entries(posted):
+    with open('posted_entries.json', 'w') as f:
+        json.dump(posted, f)
 
 def create_bluesky_post(entry, hashtags):
     title = entry.get('title', '')
@@ -175,12 +119,6 @@ def post_to_bluesky(client, content, link):
 
 def main():
     try:
-        # Setup NLTK
-        setup_nltk()
-
-        # Initialize Gemini
-        model = setup_gemini()
-
         # Initialize Bluesky client
         client = Client()
         client.login(os.environ['BLUESKY_HANDLE'], os.environ['BLUESKY_PASSWORD'])
@@ -202,9 +140,8 @@ def main():
             if entry_id in posted_entries:
                 continue
 
-            # Generate hashtags using Gemini with fallback
-            hashtags = generate_hashtags_with_gemini(
-                model,
+            # Generate hashtags using our simplified method
+            hashtags = generate_hashtags(
                 entry.title,
                 entry.get('description', '')
             )
