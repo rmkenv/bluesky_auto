@@ -291,6 +291,7 @@ def main():
         # --- List of RSS feed URLs ---
         rss_urls = [
             "https://www.theguardian.com/environment/climate-crisis/rss",
+            "https://yaleclimateconnections.org/feed/",
             "https://www.nature.com/nclimate.rss"
         ]
 
