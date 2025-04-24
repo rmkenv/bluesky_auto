@@ -178,29 +178,36 @@ def basic_hashtag_generation(title, description, banned_words):
     print(f"Basic generated hashtags: {final_hashtags}")
     return final_hashtags
 
-def create_post_with_link_facet(client, entry_title, entry_link, hashtags_keywords):
-    """Creates a post with a clickable link using facets."""
+def create_post_with_facets(client, entry_title, entry_link, hashtags_keywords):
+    """Creates a post with clickable link and hashtags using facets."""
     try:
         # Create the post text
         # Format: Title + "Read more" (which will be the clickable link) + hashtags
         title_text = entry_title
         link_text = "\n\nRead more"
-        hashtag_text = "\n\n" + " ".join([f"#{tag}" for tag in hashtags_keywords])
-        
+
+        # Add hashtags with # prefix
+        hashtag_section = "\n\n"
+        hashtags_with_prefix = [f"#{tag}" for tag in hashtags_keywords]
+        hashtag_text = " ".join(hashtags_with_prefix)
+
         # Full post text
-        full_text = title_text + link_text + hashtag_text
-        
+        full_text = title_text + link_text + hashtag_section + hashtag_text
+
+        # Initialize facets list
+        facets = []
+
         # Calculate byte positions for the link
-        title_bytes_len = len(title_text.encode('utf-8'))
-        link_text_bytes_len = len(link_text.encode('utf-8'))
-        
+        title_bytes = title_text.encode('utf-8')
+        link_text_bytes = link_text.encode('utf-8')
+
         # The link starts after the title
-        link_start = title_bytes_len
+        link_start = len(title_bytes)
         # The link ends after the link text
-        link_end = title_bytes_len + link_text_bytes_len
-        
-        # Create the facet for the clickable link
-        facets = [{
+        link_end = link_start + len(link_text_bytes)
+
+        # Add link facet
+        facets.append({
             "index": {
                 "byteStart": link_start,
                 "byteEnd": link_end
@@ -209,25 +216,57 @@ def create_post_with_link_facet(client, entry_title, entry_link, hashtags_keywor
                 "$type": "app.bsky.richtext.facet#link",
                 "uri": entry_link
             }]
-        }]
-        
+        })
+
+        # Calculate byte positions for each hashtag
+        # First, get the byte position where hashtags start
+        content_before_hashtags = title_text + link_text + hashtag_section
+        hashtag_start_pos = len(content_before_hashtags.encode('utf-8'))
+
+        # Track current position
+        current_pos = hashtag_start_pos
+
+        # Add facet for each hashtag
+        for hashtag in hashtags_with_prefix:
+            # The hashtag itself (with #)
+            hashtag_bytes = hashtag.encode('utf-8')
+            hashtag_length = len(hashtag_bytes)
+
+            # Add facet for this hashtag
+            facets.append({
+                "index": {
+                    "byteStart": current_pos,
+                    "byteEnd": current_pos + hashtag_length
+                },
+                "features": [{
+                    "$type": "app.bsky.richtext.facet#tag",
+                    "tag": hashtag[1:]  # Remove # prefix for the tag value
+                }]
+            })
+
+            # Move position past this hashtag and the space after it
+            current_pos += hashtag_length
+            if current_pos < len(full_text.encode('utf-8')):
+                # Add space if not the last hashtag
+                current_pos += 1  # 1 byte for space
+
         print(f"Post text ({len(full_text)} chars):\n{full_text}")
-        print(f"Link facet: byteStart={link_start}, byteEnd={link_end}, uri={entry_link}")
-        
-        # Post to Bluesky with the facet
+        print(f"Created {len(facets)} facets: 1 link + {len(hashtags_keywords)} hashtags")
+
+        # Post to Bluesky with the facets
         response = client.send_post(
             text=full_text,
             facets=facets
         )
-        
+
         return response
-        
+
     except Exception as e:
-        print(f"Error creating post with link facet: {str(e)}")
+        print(f"Error creating post with facets: {str(e)}")
         traceback.print_exc()
-        
+
         # Fall back to simple post without facets
-        print("Falling back to simple post without clickable link...")
+        print("Falling back to simple post without clickable elements...")
         simple_text = f"{entry_title}\n\n{entry_link}\n\n" + " ".join([f"#{tag}" for tag in hashtags_keywords])
         return client.send_post(text=simple_text)
 
@@ -290,11 +329,11 @@ def main():
                     hashtags_keywords = generate_keyword_hashtags(entry_title, entry_desc)
 
                     try:
-                        # Create and post with clickable link
-                        response = create_post_with_link_facet(
-                            client, 
-                            entry_title, 
-                            entry_link, 
+                        # Create and post with clickable link and hashtags
+                        response = create_post_with_facets(
+                            client,
+                            entry_title,
+                            entry_link,
                             hashtags_keywords
                         )
 
