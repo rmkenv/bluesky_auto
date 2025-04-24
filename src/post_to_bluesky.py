@@ -3,8 +3,10 @@ import time
 import hashlib
 import feedparser
 import json
+import re
 from datetime import datetime, timezone
 from atproto import Client
+import google.generativeai as genai
 
 # --- Helper Functions ---
 def load_posted_entries():
@@ -26,56 +28,188 @@ def save_posted_entries(posted_entries):
         print(f"Error saving posted entries: {str(e)}")
 
 def generate_keyword_hashtags(title, description):
-    # Implementation for generating hashtags from title and description
-    # This function should return a list of keywords (without the # symbol)
-    # Placeholder implementation - replace with your actual implementation
-    import re
-    from collections import Counter
+    import google.generativeai as genai
+    import os
 
-    # Combine title and description
-    text = f"{title} {description}"
+    # List of words that should never be hashtags
+    banned_words = {
+        'article', 'news', 'report', 'story', 'update', 'read', 'more', 'about', 'from', 
+        'with', 'this', 'that', 'these', 'those', 'there', 'their', 'they', 'them', 
+        'what', 'when', 'where', 'which', 'who', 'whom', 'whose', 'why', 'how',
+        'have', 'has', 'had', 'having', 'been', 'being', 'some', 'same', 'such',
+        'time', 'year', 'people', 'world', 'make', 'just', 'know', 'take', 'into',
+        'your', 'some', 'could', 'would', 'should', 'than', 'then', 'now', 'look',
+        'only', 'come', 'over', 'think', 'also', 'back', 'after', 'use', 'two',
+        'first', 'last', 'long', 'great', 'little', 'very', 'much', 'good', 'new'
+    }
 
-    # Remove HTML tags if any
+    # Get API key from environment variable
+    api_key = os.environ.get('GEMINI_API_KEY')
+    if not api_key:
+        print("Warning: GEMINI_API_KEY not found in environment variables")
+        # Fall back to basic hashtag generation
+        return basic_hashtag_generation(title, description, banned_words)
+
+    # Configure the Gemini API
+    genai.configure(api_key=api_key)
+
+    # Select the model
+    model = genai.GenerativeModel('gemini-pro')
+
+    # Combine title and description, clean up HTML
+    text = f"Title: {title}\n\nContent: {description}"
     text = re.sub(r'<[^>]+>', '', text)
 
-    # Convert to lowercase and split into words
+    # Create the prompt for Gemini
+    prompt = f"""
+    Analyze this climate news article and generate exactly 3 relevant hashtags.
+
+    Article:
+    {text}
+
+    Instructions:
+    1. Focus on specific climate topics mentioned in the article
+    2. Make hashtags concise and relevant to climate discourse
+    3. Format as CamelCase (e.g., ClimateAction, RenewableEnergy)
+    4. Avoid generic terms like "Climate" alone
+    5. NEVER use these words as hashtags (even as part of compound words): article, news, report, story, update, read, more, about, from, with, this, that, these, those
+    6. Return ONLY the 3 hashtags as a comma-separated list, nothing else
+
+    Example output format: RenewableEnergy,CarbonCapture,ClimatePolicy
+    """
+
+    try:
+        # Generate response from Gemini
+        response = model.generate_content(prompt)
+
+        # Extract and process hashtags
+        hashtags_text = response.text.strip()
+
+        # Split by commas and clean up
+        hashtags = [tag.strip() for tag in hashtags_text.split(',')]
+
+        # Ensure proper formatting and filter banned words
+        formatted_hashtags = []
+        for tag in hashtags:
+            # Remove # if present
+            if tag.startswith('#'):
+                tag = tag[1:]
+            
+            # Ensure CamelCase
+            if ' ' in tag:
+                tag = ''.join(word.capitalize() for word in tag.split())
+            elif tag and not tag[0].isupper():
+                tag = tag[0].upper() + tag[1:]
+            
+            # Check if tag contains any banned words
+            tag_lower = tag.lower()
+            if not any(banned.lower() in tag_lower for banned in banned_words):
+                formatted_hashtags.append(tag)
+
+        # If we got fewer than 3 hashtags, add some defaults
+        default_hashtags = ['ClimateAction', 'ClimateJustice', 'ClimateChange', 'GlobalWarming', 'Sustainability']
+        while len(formatted_hashtags) < 3 and default_hashtags:
+            default_tag = default_hashtags.pop(0)
+            if default_tag not in formatted_hashtags:
+                formatted_hashtags.append(default_tag)
+
+        print(f"Gemini generated hashtags: {formatted_hashtags}")
+        return formatted_hashtags[:3]  # Ensure exactly 3 hashtags
+
+    except Exception as e:
+        print(f"Error using Gemini for hashtag generation: {str(e)}")
+        # Fall back to basic hashtag generation
+        return basic_hashtag_generation(title, description, banned_words)
+
+def basic_hashtag_generation(title, description, banned_words):
+    """Fallback method if Gemini API fails"""
+    # Climate-specific relevant terms to prioritize
+    climate_terms = {
+        'climate', 'carbon', 'emission', 'emissions', 'warming', 'global',
+        'renewable', 'sustainability', 'sustainable', 'environment', 'environmental',
+        'green', 'energy', 'solar', 'wind', 'hydro', 'biodiversity', 'conservation',
+        'pollution', 'fossil', 'fuel', 'methane', 'co2', 'greenhouse', 'temperature',
+        'ocean', 'sea', 'level', 'ice', 'glacier', 'arctic', 'antarctic', 'drought',
+        'flood', 'wildfire', 'hurricane', 'storm', 'extreme', 'weather', 'policy',
+        'agreement', 'paris', 'ipcc', 'net', 'zero', 'adaptation', 'mitigation',
+        'resilience', 'justice', 'crisis', 'emergency', 'action', 'activism'
+    }
+
+    # Default climate hashtags
+    default_hashtags = ['ClimateAction', 'ClimateJustice', 'ClimateChange', 'GlobalWarming', 'Sustainability']
+
+    # Try to extract some basic keywords
+    text = f"{title} {description}"
+    text = re.sub(r'<[^>]+>', '', text)
     words = re.findall(r'\b\w+\b', text.lower())
 
-    # Remove common stop words
-    stop_words = {'the', 'a', 'an', 'and', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were'}
-    filtered_words = [word for word in words if word not in stop_words and len(word) > 3]
+    # Filter words
+    filtered_words = [
+        word for word in words 
+        if word in climate_terms 
+        and word not in banned_words 
+        and len(word) > 4
+    ]
 
-    # Count word frequency
-    word_counts = Counter(filtered_words)
+    # Create hashtags from climate terms found in the article
+    hashtags = []
+    for word in set(filtered_words):
+        if len(hashtags) >= 3:
+            break
+        hashtags.append(word.capitalize())
 
-    # Get the most common words as hashtags (up to 5)
-    hashtags = [word for word, count in word_counts.most_common(5)]
+    # Add default hashtags if needed
+    while len(hashtags) < 3 and default_hashtags:
+        hashtags.append(default_hashtags.pop(0))
 
-    return hashtags
+    return hashtags[:3]
 
 def create_bluesky_post(entry, hashtags_keywords):
     # Implementation for creating post content
     entry_title = entry.get('title', 'No Title Provided')
-    entry_link = entry.get('link', '')
 
-    # Create the post content
-    content = f"{entry_title}\n\n"
+    # Create the post content with just the title
+    content = f"{entry_title}"
 
     # Add hashtags at the end
     if hashtags_keywords:
         hashtag_text = ' '.join([f"#{tag}" for tag in hashtags_keywords])
-        content += f"\n{hashtag_text}"
+        content += f"\n\n{hashtag_text}"
 
     return content
 
 def post_to_bluesky(client, content, entry_link, hashtags_keywords):
-    # Implementation for posting to Bluesky
-    # Create a facet for the URL
+    # Create a facet for the URL to make it clickable
     facets = []
+
+    # Only add link facet if we have a valid URL
+    if entry_link:
+        # Find where to put the link in the text
+        # We'll add it at the end of the content
+        link_text = "\n\nRead more"
+        full_content = content + link_text
+
+        # Calculate byte positions for the link
+        link_start = len(content.encode('utf-8'))
+        link_end = len(full_content.encode('utf-8'))
+
+        # Create the facet for the link
+        facets = [{
+            "index": {
+                "byteStart": link_start,
+                "byteEnd": link_end
+            },
+            "features": [{
+                "$type": "app.bsky.richtext.facet#link",
+                "uri": entry_link
+            }]
+        }]
+    else:
+        full_content = content
 
     # Post to Bluesky
     response = client.send_post(
-        text=content,
+        text=full_content,
         facets=facets
     )
 
