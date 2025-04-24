@@ -2,36 +2,84 @@ import os
 import time
 import hashlib
 import feedparser
+import json
 from datetime import datetime, timezone
 from atproto import Client
 
 # --- Helper Functions ---
 def load_posted_entries():
-    # Implementation for loading previously posted entries
-    # This function should return a dictionary of previously posted entries
-    # You'll need to implement this based on how you're storing the data
-    # Example: return json.load(open('posted_entries.json', 'r')) if exists else {}
-    pass
+    try:
+        if os.path.exists('posted_entries.json'):
+            with open('posted_entries.json', 'r') as f:
+                return json.load(f)
+        else:
+            return {}  # Return empty dict if file doesn't exist
+    except Exception as e:
+        print(f"Error loading posted entries: {str(e)}")
+        return {}  # Return empty dict on error
 
 def save_posted_entries(posted_entries):
-    # Implementation for saving posted entries
-    # Example: json.dump(posted_entries, open('posted_entries.json', 'w'))
-    pass
+    try:
+        with open('posted_entries.json', 'w') as f:
+            json.dump(posted_entries, f, indent=2)
+    except Exception as e:
+        print(f"Error saving posted entries: {str(e)}")
 
 def generate_keyword_hashtags(title, description):
     # Implementation for generating hashtags from title and description
     # This function should return a list of keywords (without the # symbol)
-    pass
+    # Placeholder implementation - replace with your actual implementation
+    import re
+    from collections import Counter
+
+    # Combine title and description
+    text = f"{title} {description}"
+
+    # Remove HTML tags if any
+    text = re.sub(r'<[^>]+>', '', text)
+
+    # Convert to lowercase and split into words
+    words = re.findall(r'\b\w+\b', text.lower())
+
+    # Remove common stop words
+    stop_words = {'the', 'a', 'an', 'and', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were'}
+    filtered_words = [word for word in words if word not in stop_words and len(word) > 3]
+
+    # Count word frequency
+    word_counts = Counter(filtered_words)
+
+    # Get the most common words as hashtags (up to 5)
+    hashtags = [word for word, count in word_counts.most_common(5)]
+
+    return hashtags
 
 def create_bluesky_post(entry, hashtags_keywords):
     # Implementation for creating post content
-    # This function should return the formatted post text
-    pass
+    entry_title = entry.get('title', 'No Title Provided')
+    entry_link = entry.get('link', '')
+
+    # Create the post content
+    content = f"{entry_title}\n\n"
+
+    # Add hashtags at the end
+    if hashtags_keywords:
+        hashtag_text = ' '.join([f"#{tag}" for tag in hashtags_keywords])
+        content += f"\n{hashtag_text}"
+
+    return content
 
 def post_to_bluesky(client, content, entry_link, hashtags_keywords):
     # Implementation for posting to Bluesky
-    # This function should handle the actual posting logic
-    pass
+    # Create a facet for the URL
+    facets = []
+
+    # Post to Bluesky
+    response = client.send_post(
+        text=content,
+        facets=facets
+    )
+
+    return response
 
 # --- Main Function ---
 def main():
