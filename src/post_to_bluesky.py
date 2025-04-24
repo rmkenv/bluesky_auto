@@ -1,4 +1,3 @@
-
 import os
 import time
 import hashlib
@@ -7,6 +6,7 @@ import json
 import re
 from datetime import datetime, timezone
 from atproto import Client
+import traceback
 import google.generativeai as genai
 
 # --- Helper Functions ---
@@ -16,10 +16,11 @@ def load_posted_entries():
             with open('posted_entries.json', 'r') as f:
                 return json.load(f)
         else:
-            return {}  # Return empty dict if file doesn't exist
+            print("posted_entries.json not found, starting fresh.")
+            return {}
     except Exception as e:
         print(f"Error loading posted entries: {str(e)}")
-        return {}  # Return empty dict on error
+        return {}
 
 def save_posted_entries(posted_entries):
     try:
@@ -29,13 +30,11 @@ def save_posted_entries(posted_entries):
         print(f"Error saving posted entries: {str(e)}")
 
 def generate_keyword_hashtags(title, description):
-    import google.generativeai as genai
-    import os
-
+    """Generates 3 relevant hashtags using Gemini API or a fallback."""
     # List of words that should never be hashtags
     banned_words = {
-        'article', 'news', 'report', 'story', 'update', 'read', 'more', 'about', 'from', 
-        'with', 'this', 'that', 'these', 'those', 'there', 'their', 'they', 'them', 
+        'article', 'news', 'report', 'story', 'update', 'read', 'more', 'about', 'from',
+        'with', 'this', 'that', 'these', 'those', 'there', 'their', 'they', 'them',
         'what', 'when', 'where', 'which', 'who', 'whom', 'whose', 'why', 'how',
         'have', 'has', 'had', 'having', 'been', 'being', 'some', 'same', 'such',
         'time', 'year', 'people', 'world', 'make', 'just', 'know', 'take', 'into',
@@ -47,47 +46,48 @@ def generate_keyword_hashtags(title, description):
     # Get API key from environment variable
     api_key = os.environ.get('GEMINI_API_KEY')
     if not api_key:
-        print("Warning: GEMINI_API_KEY not found in environment variables")
+        print("Warning: GEMINI_API_KEY not found in environment variables. Using basic hashtag generation.")
         # Fall back to basic hashtag generation
         return basic_hashtag_generation(title, description, banned_words)
 
-    # Configure the Gemini API
-    genai.configure(api_key=api_key)
-
-    # Select the model
-    model = genai.GenerativeModel('gemini-pro')
-
-    # Combine title and description, clean up HTML
-    text = f"Title: {title}\n\nContent: {description}"
-    text = re.sub(r'<[^>]+>', '', text)
-
-    # Create the prompt for Gemini
-    prompt = f"""
-    Analyze this climate news article and generate exactly 3 relevant hashtags.
-
-    Article:
-    {text}
-
-    Instructions:
-    1. Focus on specific climate topics mentioned in the article
-    2. Make hashtags concise and relevant to climate discourse
-    3. Format as CamelCase (e.g., ClimateAction, RenewableEnergy)
-    4. Avoid generic terms like "Climate" alone
-    5. NEVER use these words as hashtags (even as part of compound words): article, news, report, story, update, read, more, about, from, with, this, that, these, those
-    6. Return ONLY the 3 hashtags as a comma-separated list, nothing else
-
-    Example output format: RenewableEnergy,CarbonCapture,ClimatePolicy
-    """
-
     try:
+        # Configure the Gemini API
+        genai.configure(api_key=api_key)
+
+        # Select the model
+        model = genai.GenerativeModel('gemini-pro')
+
+        # Combine title and description, clean up HTML
+        text = f"Title: {title}\n\nContent: {description}"
+        text = re.sub(r'<[^>]+>', '', text) # Basic HTML stripping
+
+        # Create the prompt for Gemini
+        prompt = f"""
+        Analyze this climate news article and generate exactly 3 relevant hashtags.
+
+        Article:
+        {text}
+
+        Instructions:
+        1. Focus on specific climate topics mentioned in the article
+        2. Make hashtags concise and relevant to climate discourse
+        3. Format as CamelCase (e.g., ClimateAction, RenewableEnergy)
+        4. Avoid generic terms like "Climate" alone
+        5. NEVER use these words as hashtags (even as part of compound words): article, news, report, story, update, read, more, about, from, with, this, that, these, those
+        6. Return ONLY the 3 hashtags as a comma-separated list, nothing else
+
+        Example output format: RenewableEnergy,CarbonCapture,ClimatePolicy
+        """
+
         # Generate response from Gemini
+        print(f"Generating hashtags for: '{title}' using Gemini...")
         response = model.generate_content(prompt)
 
         # Extract and process hashtags
         hashtags_text = response.text.strip()
 
         # Split by commas and clean up
-        hashtags = [tag.strip() for tag in hashtags_text.split(',')]
+        hashtags = [tag.strip() for tag in hashtags_text.split(',') if tag.strip()]
 
         # Ensure proper formatting and filter banned words
         formatted_hashtags = []
@@ -95,35 +95,41 @@ def generate_keyword_hashtags(title, description):
             # Remove # if present
             if tag.startswith('#'):
                 tag = tag[1:]
-            
+
             # Ensure CamelCase
-            if ' ' in tag:
-                tag = ''.join(word.capitalize() for word in tag.split())
-            elif tag and not tag[0].isupper():
+            if tag and not tag[0].isupper():
                 tag = tag[0].upper() + tag[1:]
-            
+
             # Check if tag contains any banned words
             tag_lower = tag.lower()
-            if not any(banned.lower() in tag_lower for banned in banned_words):
+            is_banned = False
+            for banned in banned_words:
+                if banned.lower() == tag_lower or banned.lower() in tag_lower:
+                    is_banned = True
+                    break
+            if not is_banned and tag:
                 formatted_hashtags.append(tag)
 
-        # If we got fewer than 3 hashtags, add some defaults
+        # If we got fewer than 3 valid hashtags, add defaults
         default_hashtags = ['ClimateAction', 'ClimateJustice', 'ClimateChange', 'GlobalWarming', 'Sustainability']
         while len(formatted_hashtags) < 3 and default_hashtags:
             default_tag = default_hashtags.pop(0)
             if default_tag not in formatted_hashtags:
                 formatted_hashtags.append(default_tag)
 
-        print(f"Gemini generated hashtags: {formatted_hashtags}")
-        return formatted_hashtags[:3]  # Ensure exactly 3 hashtags
+        final_hashtags = formatted_hashtags[:3] # Ensure exactly 3 hashtags
+        print(f"Gemini generated hashtags: {final_hashtags}")
+        return final_hashtags
 
     except Exception as e:
         print(f"Error using Gemini for hashtag generation: {str(e)}")
+        print("Falling back to basic hashtag generation.")
         # Fall back to basic hashtag generation
         return basic_hashtag_generation(title, description, banned_words)
 
 def basic_hashtag_generation(title, description, banned_words):
-    """Fallback method if Gemini API fails"""
+    """Fallback method if Gemini API fails or is not configured."""
+    print(f"Using basic hashtag generation for: '{title}'")
     # Climate-specific relevant terms to prioritize
     climate_terms = {
         'climate', 'carbon', 'emission', 'emissions', 'warming', 'global',
@@ -141,168 +147,149 @@ def basic_hashtag_generation(title, description, banned_words):
 
     # Try to extract some basic keywords
     text = f"{title} {description}"
-    text = re.sub(r'<[^>]+>', '', text)
+    text = re.sub(r'<[^>]+>', '', text) # Basic HTML stripping
     words = re.findall(r'\b\w+\b', text.lower())
 
     # Filter words
     filtered_words = [
-        word for word in words 
-        if word in climate_terms 
-        and word not in banned_words 
-        and len(word) > 4
+        word for word in words
+        if word in climate_terms
+        and word not in banned_words
+        and len(word) > 3
     ]
 
     # Create hashtags from climate terms found in the article
     hashtags = []
-    for word in set(filtered_words):
+    processed_words = set()
+    for word in filtered_words:
         if len(hashtags) >= 3:
             break
-        hashtags.append(word.capitalize())
+        if word not in processed_words:
+            hashtags.append(word.capitalize())
+            processed_words.add(word)
 
     # Add default hashtags if needed
     while len(hashtags) < 3 and default_hashtags:
-        hashtags.append(default_hashtags.pop(0))
+        default_tag = default_hashtags.pop(0)
+        if default_tag not in hashtags and default_tag.lower() not in processed_words:
+            hashtags.append(default_tag)
 
-    return hashtags[:3]
+    final_hashtags = hashtags[:3]
+    print(f"Basic generated hashtags: {final_hashtags}")
+    return final_hashtags
 
-def create_bluesky_post(entry, hashtags_keywords):
-    # Implementation for creating post content
-    entry_title = entry.get('title', 'No Title Provided')
+def create_post_text(entry, hashtags_keywords):
+    """Creates post text with custom hashtags but still using simple format."""
+    entry_title = entry.get('title', 'No Title Provided').strip()
+    entry_link = entry.get('link', '')
 
-    # Create the post content with just the title
-    content = f"{entry_title}"
+    # Format hashtags
+    hashtag_text = ' '.join([f"#{tag}" for tag in hashtags_keywords])
 
-    # Add hashtags at the end
-    if hashtags_keywords:
-        hashtag_text = ' '.join([f"#{tag}" for tag in hashtags_keywords])
-        content += f"\n\n{hashtag_text}"
+    # Simple format: Title + link + hashtags
+    post_text = f"{entry_title}\n\n{entry_link}\n\n{hashtag_text}"
 
-    return content
-
-def post_to_bluesky(client, content, entry_link, hashtags_keywords):
-    # Create a facet for the URL to make it clickable
-    facets = []
-
-    # Only add link facet if we have a valid URL
-    if entry_link:
-        # Find where to put the link in the text
-        # We'll add it at the end of the content
-        link_text = "\n\nRead more"
-        full_content = content + link_text
-
-        # Calculate byte positions for the link
-        link_start = len(content.encode('utf-8'))
-        link_end = len(full_content.encode('utf-8'))
-
-        # Create the facet for the link
-        facets = [{
-            "index": {
-                "byteStart": link_start,
-                "byteEnd": link_end
-            },
-            "features": [{
-                "$type": "app.bsky.richtext.facet#link",
-                "uri": entry_link
-            }]
-        }]
-    else:
-        full_content = content
-
-    # Post to Bluesky
-    response = client.send_post(
-        text=full_content,
-        facets=facets
-    )
-
-    return response
+    return post_text
 
 # --- Main Function ---
 def main():
+    print("--- Script starting ---")
     try:
+        # Check for required environment variables
+        bluesky_handle = os.environ.get('BLUESKY_HANDLE')
+        bluesky_password = os.environ.get('BLUESKY_PASSWORD')
+
+        if not bluesky_handle or not bluesky_password:
+            print("Error: BLUESKY_HANDLE and BLUESKY_PASSWORD environment variables must be set.")
+            return
+
         # Initialize Bluesky client
         client = Client()
-        client.login(os.environ['BLUESKY_HANDLE'], os.environ['BLUESKY_PASSWORD'])
+        print(f"Attempting Bluesky login for handle: {bluesky_handle}...")
+        client.login(bluesky_handle, bluesky_password)
+        print("Bluesky login successful!")
 
-        # --- UPDATED: List of RSS feed URLs ---
+        # --- List of RSS feed URLs ---
         rss_urls = [
             "https://www.theguardian.com/environment/climate-crisis/rss",
-            "https://www.nature.com/nclimate.rss" # Added Nature Climate Change feed
-            # Add more URLs as needed
+            "https://www.nature.com/nclimate.rss"
         ]
 
         posted_entries = load_posted_entries()
+        print(f"Loaded {len(posted_entries)} previously posted entries.")
 
+        new_posts_count = 0
         for rss_url in rss_urls:
             print(f"\n--- Processing feed: {rss_url} ---")
             try:
                 feed = feedparser.parse(rss_url)
-                if feed.bozo:
-                    print(f"Warning: Feed may be ill-formed. Error: {feed.bozo_exception}")
-
                 if not feed.entries:
                     print("No entries found in this feed.")
                     continue
 
-                for entry in feed.entries:
-                    entry_title = entry.get('title', 'No Title Provided')
-                    entry_link = entry.get('link')
-                    # Try getting description, fallback to summary, then empty string
+                print(f"Found {len(feed.entries)} entries in feed.")
+                for entry in feed.entries[:3]:  # Process just the first 3 entries for testing
+                    entry_title = entry.get('title', 'No Title Provided').strip()
+                    entry_link = entry.get('link', '')
                     entry_desc = entry.get('description', entry.get('summary', ''))
 
                     if not entry_link:
                         print(f"Skipping entry with no link: '{entry_title}'")
                         continue
 
+                    # Use link as the unique identifier
                     entry_id = hashlib.md5(entry_link.encode()).hexdigest()
 
                     if entry_id in posted_entries:
+                        print(f"Skipping (already posted): {entry_title}")
                         continue
 
-                    # --- Use the new keyword hashtag generator ---
-                    hashtags_keywords = generate_keyword_hashtags(
-                        entry_title,
-                        entry_desc # Pass description for better keyword context
-                    )
+                    print(f"\nAttempting to post: {entry_title}")
 
-                    if not hashtags_keywords:
-                         print(f"Warning: No suitable keywords found for hashtags for entry: '{entry_title}'")
-                         # Optionally skip posting if no hashtags, or post without them
-                         # continue
+                    # Generate custom hashtags
+                    hashtags_keywords = generate_keyword_hashtags(entry_title, entry_desc)
 
-                    # Create post content
-                    # Pass the generated keywords (without #) to create_bluesky_post
-                    content = create_bluesky_post(entry, hashtags_keywords)
+                    # Create post text with custom hashtags
+                    post_text = create_post_text(entry, hashtags_keywords)
+                    print(f"Post text ({len(post_text)} chars):\n{post_text}")
 
                     try:
-                        # Pass the generated keywords (without #) to post_to_bluesky
-                        post_to_bluesky(client, content, entry_link, hashtags_keywords)
+                        # Post to Bluesky using the simple method that works
+                        response = client.send_post(text=post_text)
 
+                        # Record successful post
                         posted_entries[entry_id] = {
                             'title': entry_title,
                             'link': entry_link,
                             'date_posted': datetime.now(timezone.utc).isoformat(),
-                            'hashtags': [f"#{tag}" for tag in hashtags_keywords] # Store with #
+                            'hashtags': [f"#{tag}" for tag in hashtags_keywords],
+                            'post_uri': getattr(response, 'uri', 'Unknown URI')
                         }
+                        new_posts_count += 1
 
                         print(f"Successfully posted: {entry_title}")
+                        print(f"Post URI: {posted_entries[entry_id]['post_uri']}")
                         print(f"Generated hashtags: {' '.join([f'#{tag}' for tag in hashtags_keywords])}")
 
-                        time.sleep(3) # Wait between posts
+                        # Save after each successful post
+                        save_posted_entries(posted_entries)
+
+                        # Wait between posts
+                        time.sleep(5)
 
                     except Exception as post_error:
-                        print(f"Error posting '{entry_title}' from {rss_url}: {str(post_error)}")
+                        print(f"Error posting '{entry_title}': {str(post_error)}")
+                        traceback.print_exc()
 
             except Exception as feed_error:
                 print(f"Error processing feed {rss_url}: {str(feed_error)}")
-                continue # Move to the next feed URL
+                traceback.print_exc()
 
-        save_posted_entries(posted_entries)
-        print("\n--- Feed processing complete ---")
+        print(f"\n--- Feed processing complete. Posted {new_posts_count} new entries. ---")
 
     except Exception as e:
-        # Catch login errors or other fatal issues
-        print(f"Fatal error during script execution: {str(e)}")
-        raise
+        print(f"Fatal error: {str(e)}")
+        traceback.print_exc()
 
 if __name__ == "__main__":
     main()
