@@ -1,4 +1,6 @@
 atproto
 feedparser
 google-generativeai
-nltk
+requests
+python-dateutil
+beautifulsoup4
