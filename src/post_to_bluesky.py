@@ -178,18 +178,58 @@ def basic_hashtag_generation(title, description, banned_words):
     print(f"Basic generated hashtags: {final_hashtags}")
     return final_hashtags
 
-def create_post_text(entry, hashtags_keywords):
-    """Creates post text with custom hashtags but still using simple format."""
-    entry_title = entry.get('title', 'No Title Provided').strip()
-    entry_link = entry.get('link', '')
-
-    # Format hashtags
-    hashtag_text = ' '.join([f"#{tag}" for tag in hashtags_keywords])
-
-    # Simple format: Title + link + hashtags
-    post_text = f"{entry_title}\n\n{entry_link}\n\n{hashtag_text}"
-
-    return post_text
+def create_post_with_link_facet(client, entry_title, entry_link, hashtags_keywords):
+    """Creates a post with a clickable link using facets."""
+    try:
+        # Create the post text
+        # Format: Title + "Read more" (which will be the clickable link) + hashtags
+        title_text = entry_title
+        link_text = "\n\nRead more"
+        hashtag_text = "\n\n" + " ".join([f"#{tag}" for tag in hashtags_keywords])
+        
+        # Full post text
+        full_text = title_text + link_text + hashtag_text
+        
+        # Calculate byte positions for the link
+        title_bytes_len = len(title_text.encode('utf-8'))
+        link_text_bytes_len = len(link_text.encode('utf-8'))
+        
+        # The link starts after the title
+        link_start = title_bytes_len
+        # The link ends after the link text
+        link_end = title_bytes_len + link_text_bytes_len
+        
+        # Create the facet for the clickable link
+        facets = [{
+            "index": {
+                "byteStart": link_start,
+                "byteEnd": link_end
+            },
+            "features": [{
+                "$type": "app.bsky.richtext.facet#link",
+                "uri": entry_link
+            }]
+        }]
+        
+        print(f"Post text ({len(full_text)} chars):\n{full_text}")
+        print(f"Link facet: byteStart={link_start}, byteEnd={link_end}, uri={entry_link}")
+        
+        # Post to Bluesky with the facet
+        response = client.send_post(
+            text=full_text,
+            facets=facets
+        )
+        
+        return response
+        
+    except Exception as e:
+        print(f"Error creating post with link facet: {str(e)}")
+        traceback.print_exc()
+        
+        # Fall back to simple post without facets
+        print("Falling back to simple post without clickable link...")
+        simple_text = f"{entry_title}\n\n{entry_link}\n\n" + " ".join([f"#{tag}" for tag in hashtags_keywords])
+        return client.send_post(text=simple_text)
 
 # --- Main Function ---
 def main():
@@ -212,8 +252,7 @@ def main():
         # --- List of RSS feed URLs ---
         rss_urls = [
             "https://www.theguardian.com/environment/climate-crisis/rss",
-            "https://www.nature.com/nclimate.rss",
-            "https://yaleclimateconnections.org/feed/"
+            "https://www.nature.com/nclimate.rss"
         ]
 
         posted_entries = load_posted_entries()
@@ -229,7 +268,7 @@ def main():
                     continue
 
                 print(f"Found {len(feed.entries)} entries in feed.")
-                for entry in feed.entries[:3]:  # Process just the first 3 entries for testing
+                for entry in feed.entries:
                     entry_title = entry.get('title', 'No Title Provided').strip()
                     entry_link = entry.get('link', '')
                     entry_desc = entry.get('description', entry.get('summary', ''))
@@ -250,13 +289,14 @@ def main():
                     # Generate custom hashtags
                     hashtags_keywords = generate_keyword_hashtags(entry_title, entry_desc)
 
-                    # Create post text with custom hashtags
-                    post_text = create_post_text(entry, hashtags_keywords)
-                    print(f"Post text ({len(post_text)} chars):\n{post_text}")
-
                     try:
-                        # Post to Bluesky using the simple method that works
-                        response = client.send_post(text=post_text)
+                        # Create and post with clickable link
+                        response = create_post_with_link_facet(
+                            client, 
+                            entry_title, 
+                            entry_link, 
+                            hashtags_keywords
+                        )
 
                         # Record successful post
                         posted_entries[entry_id] = {
