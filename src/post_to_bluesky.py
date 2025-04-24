@@ -212,7 +212,8 @@ def main():
         # --- List of RSS feed URLs ---
         rss_urls = [
             "https://www.theguardian.com/environment/climate-crisis/rss",
-            "https://www.nature.com/nclimate.rss"
+            "https://www.nature.com/nclimate.rss",
+            "https://yaleclimateconnections.org/feed/"
         ]
 
         posted_entries = load_posted_entries()
