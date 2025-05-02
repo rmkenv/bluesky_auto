@@ -7383,5 +7383,27 @@
       "#Emissions"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lo62vyqey42y"
+  },
+  "3593d44d5d95e73830d4ae712baf32ce": {
+    "title": "Weather tracker: State of emergency as high winds and floods hit New Zealand",
+    "link": "https://www.theguardian.com/environment/2025/may/02/weather-tracker-state-of-emergency-as-high-winds-and-floods-hit-new-zealand",
+    "date_posted": "2025-05-02T10:14:22.789719+00:00",
+    "hashtags": [
+      "#Weather",
+      "#Emergency",
+      "#Level"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lo6lp2neud2v"
+  },
+  "42885d38f57ad1ce5931b8aa312b91d4": {
+    "title": "Glut of early fruit and veg hits UK as climate change closes \u2018hungry gap\u2019",
+    "link": "https://www.theguardian.com/environment/2025/may/02/glut-of-early-fruit-and-veg-hits-uk-as-climate-change-closes-hungry-gap",
+    "date_posted": "2025-05-02T10:14:28.149092+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Weather",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lo6lp7qv3q2g"
   }
 }
