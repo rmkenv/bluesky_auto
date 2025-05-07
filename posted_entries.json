@@ -7735,5 +7735,27 @@
       "#Zero"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3loliuqznpp2g"
+  },
+  "35fc2962605bec918e171092fa064970": {
+    "title": "The rich bear their fair share of climate costs",
+    "link": "https://www.nature.com/articles/s41558-025-02329-7",
+    "date_posted": "2025-05-07T15:15:11.550909+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Action",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lolotklseq2b"
+  },
+  "8097fe9361c0abab9cc0e1ba83b9110f": {
+    "title": "High-income groups disproportionately contribute to climate extremes worldwide",
+    "link": "https://www.nature.com/articles/s41558-025-02325-x",
+    "date_posted": "2025-05-07T15:15:16.890491+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Emissions",
+      "#Temperature"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lolotpp7m22c"
   }
 }
