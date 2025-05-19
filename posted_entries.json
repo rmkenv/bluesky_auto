@@ -8483,5 +8483,38 @@
       "#ClimateChange"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lpipvxtw5t2x"
+  },
+  "301dbe9dee2d04245b678fe300dbc5ad": {
+    "title": "Glacier melt trough after overshoot",
+    "link": "https://www.nature.com/articles/s41558-025-02312-2",
+    "date_posted": "2025-05-19T10:15:42.579928+00:00",
+    "hashtags": [
+      "#Glacier",
+      "#Climate",
+      "#Temperature"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lpjdp3kexv2i"
+  },
+  "15235f46ee7fffac409a3e64031b06d2": {
+    "title": "Irreversible glacier change and trough water for centuries after overshooting 1.5\u2009\u00b0C",
+    "link": "https://www.nature.com/articles/s41558-025-02318-w",
+    "date_posted": "2025-05-19T10:15:47.955876+00:00",
+    "hashtags": [
+      "#Glacier",
+      "#Climate",
+      "#Warming"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lpjdpaowhv2x"
+  },
+  "c040d60494b4bf7e9d90f848eb6b6d57": {
+    "title": "Managing for climate and production goals on crop-lands",
+    "link": "https://www.nature.com/articles/s41558-025-02337-7",
+    "date_posted": "2025-05-19T10:15:53.275802+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Mitigation",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lpjdpfr7kj2l"
   }
 }
