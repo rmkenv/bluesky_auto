@@ -10441,5 +10441,49 @@
       "#Paris"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lrhv6t5sql2o"
+  },
+  "5c0635bdcd454dbb2346196fab4fbf20": {
+    "title": "Exploring climate futures with deep learning",
+    "link": "https://www.nature.com/articles/s41558-025-02350-w",
+    "date_posted": "2025-06-13T10:15:22.267938+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Global",
+      "#Warming"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lri7dipvmx2j"
+  },
+  "52dab97028de56cba283a3e858fbf952": {
+    "title": "Future climate-driven fires may boost ocean productivity in the iron-limited North Atlantic",
+    "link": "https://www.nature.com/articles/s41558-025-02356-4",
+    "date_posted": "2025-06-13T10:15:27.656967+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Ocean",
+      "#Emissions"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lri7dnua3y2j"
+  },
+  "871098225a899e2c1136d4a98dfa1d61": {
+    "title": "Facebook algorithm\u2019s active role in climate advertisement delivery",
+    "link": "https://www.nature.com/articles/s41558-025-02326-w",
+    "date_posted": "2025-06-13T10:15:33.015906+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lri7dsybaq2f"
+  },
+  "bbbfc1e9001e4477273c8e3280045781": {
+    "title": "Using deep learning to generate key variables in global mitigation scenarios",
+    "link": "https://www.nature.com/articles/s41558-025-02352-8",
+    "date_posted": "2025-06-13T10:15:38.361736+00:00",
+    "hashtags": [
+      "#Global",
+      "#Mitigation",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lri7dy2vn22k"
   }
 }
