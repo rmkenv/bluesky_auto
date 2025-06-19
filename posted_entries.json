@@ -10848,5 +10848,27 @@
       "#Action"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lrxfdr3kq625"
+  },
+  "d12c16cdd4c3e7d924a0fc91e847f684": {
+    "title": "Amber weather alert for heat issued across England as temperatures rise",
+    "link": "https://www.theguardian.com/uk-news/2025/jun/19/amber-weather-alert-for-heat-across-england-as-temperatures-rise",
+    "date_posted": "2025-06-19T12:28:11.138033+00:00",
+    "hashtags": [
+      "#Weather",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lrxjkja3lo25"
+  },
+  "85f579a43e109b7ac68d261779b0b3dc": {
+    "title": "Flight tax could raise \u20ac100bn to tackle climate crisis, study finds",
+    "link": "https://www.theguardian.com/environment/2025/jun/19/flight-tax-climate-crisis-airline-tickets-levy-environment",
+    "date_posted": "2025-06-19T12:28:16.320831+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Crisis",
+      "#Environmental"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lrxjko5wrv2f"
   }
 }
