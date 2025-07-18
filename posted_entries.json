@@ -13213,5 +13213,27 @@
       "#Fuel"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lua4ij73an2z"
+  },
+  "f094a15cd43ef0ba3acf1eb17f83f8fe": {
+    "title": "Warmer ecosystems save their breath",
+    "link": "https://www.nature.com/articles/s41558-025-02382-2",
+    "date_posted": "2025-07-18T10:16:08.230052+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Carbon",
+      "#Warming"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lua7p3ovhf2j"
+  },
+  "0478c49eee060b12fa9f3cd3331d50d9": {
+    "title": "Thermal adaptation of respiration in terrestrial ecosystems alleviates carbon loss",
+    "link": "https://www.nature.com/articles/s41558-025-02377-z",
+    "date_posted": "2025-07-18T10:16:13.660023+00:00",
+    "hashtags": [
+      "#Adaptation",
+      "#Carbon",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lua7pauo3q2j"
   }
 }
