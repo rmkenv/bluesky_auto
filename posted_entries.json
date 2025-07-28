@@ -13895,5 +13895,38 @@
       "#Crisis"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3luytzffu5l2b"
+  },
+  "05a1b43473266d3f4c30d8983cfc6e30": {
+    "title": "Wind droughts threaten energy reliability",
+    "link": "https://www.nature.com/articles/s41558-025-02383-1",
+    "date_posted": "2025-07-28T10:16:44.129653+00:00",
+    "hashtags": [
+      "#Wind",
+      "#Energy",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3luzefejomp2d"
+  },
+  "5ac097f224401632ec87b820a1e11637": {
+    "title": "Reduction of methane emissions through improved landfill management",
+    "link": "https://www.nature.com/articles/s41558-025-02391-1",
+    "date_posted": "2025-07-28T10:16:49.556394+00:00",
+    "hashtags": [
+      "#Methane",
+      "#Emissions",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3luzefjpaqa2u"
+  },
+  "b85870b07993c96e141c760dff9f743a": {
+    "title": "Prolonged wind droughts in a warming climate threaten global wind power security",
+    "link": "https://www.nature.com/articles/s41558-025-02387-x",
+    "date_posted": "2025-07-28T10:16:54.984416+00:00",
+    "hashtags": [
+      "#Wind",
+      "#Warming",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3luzefouygy2u"
   }
 }
