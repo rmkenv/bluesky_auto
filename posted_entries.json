@@ -14247,5 +14247,27 @@
       "#Policy"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lvdd3x6uwo2b"
+  },
+  "9d8b26731172a659ebf2a5b8c60879aa": {
+    "title": "Contemporary trends in planetary photosynthetic production",
+    "link": "https://www.nature.com/articles/s41558-025-02390-2",
+    "date_posted": "2025-08-01T10:16:25.070600+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Ocean",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lvdgai5tlg2t"
+  },
+  "b9ac7d9b9da7a940afdf5e742e046000": {
+    "title": "Contrasting biological production trends over land and ocean",
+    "link": "https://www.nature.com/articles/s41558-025-02375-1",
+    "date_posted": "2025-08-01T10:16:30.551149+00:00",
+    "hashtags": [
+      "#Ocean",
+      "#Climate",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lvdganfsu722"
   }
 }
