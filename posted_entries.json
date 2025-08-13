@@ -15171,5 +15171,27 @@
       "#Environment"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lwbtat4dnp2c"
+  },
+  "9c6f862b19d4484a4b2674d09d90e0fe": {
+    "title": "More than 400 people suspected to have died from extreme heat in Arizona county",
+    "link": "https://www.theguardian.com/us-news/2025/aug/13/death-toll-extreme-heat-arizona-county",
+    "date_posted": "2025-08-13T15:12:16.839600+00:00",
+    "hashtags": [
+      "#Extreme",
+      "#Weather",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lwc4el4e3k2x"
+  },
+  "a2564b0e26a084fbced71d98ca42266a": {
+    "title": "Alaska\u2019s Juneau orders evacuations as record glacier flood looms",
+    "link": "https://www.theguardian.com/us-news/2025/aug/13/alaskas-juneau-glacier-flood-record-climate",
+    "date_posted": "2025-08-13T15:12:22.425669+00:00",
+    "hashtags": [
+      "#Glacier",
+      "#Flood",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lwc4eqh4wk2x"
   }
 }
