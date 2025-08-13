@@ -15127,5 +15127,16 @@
       "#Environment"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lwaudcuxod2h"
+  },
+  "fcecd60f622af27caef2466f5d681b26": {
+    "title": "Temperature records broken as extreme heat grips parts of Europe",
+    "link": "https://www.theguardian.com/environment/2025/aug/13/temperature-records-heatwave-europe-france-croatia-wildfires",
+    "date_posted": "2025-08-13T06:21:58.918177+00:00",
+    "hashtags": [
+      "#Temperature",
+      "#Extreme",
+      "#Wildfire"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lwb6qd6ync2w"
   }
 }
