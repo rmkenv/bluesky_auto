@@ -18174,5 +18174,38 @@
       "#Policy"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lz6ghkymnt2y"
+  },
+  "72794994ed2a10cc9bb8c939cd208c4f": {
+    "title": "Emerging risks along Arctic coastlines",
+    "link": "https://www.nature.com/articles/s41558-025-02441-8",
+    "date_posted": "2025-09-19T10:14:32.872344+00:00",
+    "hashtags": [
+      "#Arctic",
+      "#Climate",
+      "#Global"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lz6myastcq2p"
+  },
+  "793c8137185a8655efa8ca782ad14188": {
+    "title": "Progress and future directions in constraining uncertainties in sea-level projections using observations",
+    "link": "https://www.nature.com/articles/s41558-025-02437-4",
+    "date_posted": "2025-09-19T10:14:38.122508+00:00",
+    "hashtags": [
+      "#Level",
+      "#Climate",
+      "#Adaptation"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lz6myfsn342g"
+  },
+  "fed2bcd0735fc9c8809f18c3db98643f": {
+    "title": "The promise and limitations of using GenAI to reduce climate scepticism",
+    "link": "https://www.nature.com/articles/s41558-025-02425-8",
+    "date_posted": "2025-09-19T10:14:43.398528+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lz6myktlar2y"
   }
 }
