@@ -18372,5 +18372,38 @@
       "#Energy"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lzgfsunq6d26"
+  },
+  "d41c1857c888e40012f8ac6eead692d4": {
+    "title": "Twenty years of city climate collaboration",
+    "link": "https://www.nature.com/articles/s41558-025-02447-2",
+    "date_posted": "2025-09-22T14:14:21.922936+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Global",
+      "#Action"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lzglrtmsww26"
+  },
+  "eca07d074bd44dd01524e8e380d97729": {
+    "title": "Private sector investments in climate change adaptation",
+    "link": "https://www.nature.com/articles/s41558-025-02423-w",
+    "date_posted": "2025-09-22T14:14:27.334388+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Adaptation",
+      "#Global"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lzglryrcgd2p"
+  },
+  "db2d2e865eac7b1be4ef50bc306bf745": {
+    "title": "Global coastal human settlement retreat driven by vulnerability to coastal climate hazards",
+    "link": "https://www.nature.com/articles/s41558-025-02435-6",
+    "date_posted": "2025-09-22T14:14:32.781778+00:00",
+    "hashtags": [
+      "#Global",
+      "#Climate",
+      "#Adaptation"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lzgls5y7j52r"
   }
 }
