@@ -18724,5 +18724,27 @@
       "#Agreement"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lzn3svbm3m2u"
+  },
+  "c03b6cd22d00e795b18ffaf73a9f7797": {
+    "title": "Cost-effective adaptation of electric grids",
+    "link": "https://www.nature.com/articles/s41558-025-02421-y",
+    "date_posted": "2025-09-25T10:16:23.781437+00:00",
+    "hashtags": [
+      "#Adaptation",
+      "#Climate",
+      "#Wildfire"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lznpv3dbwp2j"
+  },
+  "eaac11a1eccd916ae456e1dbcf5fdf33": {
+    "title": "Dynamic grid management reduces wildfire adaptation costs in the electric power sector",
+    "link": "https://www.nature.com/articles/s41558-025-02436-5",
+    "date_posted": "2025-09-25T10:16:29.042560+00:00",
+    "hashtags": [
+      "#Wildfire",
+      "#Adaptation",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3lznpvae5hu2u"
   }
 }
