@@ -19868,5 +19868,38 @@
       "#Environment"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m2zzjitnas2x"
+  },
+  "262923820ef9017a4e7b1b84d0e9718e": {
+    "title": "New Zealand accused of \u2018full-blown climate denial\u2019 over cuts to methane reduction targets",
+    "link": "https://www.theguardian.com/world/2025/oct/13/new-zealand-government-accused-climate-denial-methane-reduction-targets",
+    "date_posted": "2025-10-13T04:16:59.424387+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Methane",
+      "#Environmental"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m32e6yafdz23"
+  },
+  "025510002bd5f959f7ea9de5ceaa612c": {
+    "title": "Two legal challenges to Woodside\u2019s North West Shelf extension filed on environmental and cultural grounds",
+    "link": "https://www.theguardian.com/environment/2025/oct/13/legal-challenges-woodside-gas-plant-north-west-shelf-extension-environmental-cultural-grounds",
+    "date_posted": "2025-10-13T04:17:04.871249+00:00",
+    "hashtags": [
+      "#Environmental",
+      "#Conservation",
+      "#Environment"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m32e75gs3a2v"
+  },
+  "7bdcb8b0df28b28c8ddb599a4d5dbe27": {
+    "title": "Trump calls climate science a \u2018con job\u2019. That could make tackling the crisis a whole lot easier | Francesco Grillo",
+    "link": "https://www.theguardian.com/commentisfree/2025/oct/13/donald-trump-withdrawal-paris-agreement-tackling-climate-crisis-easier",
+    "date_posted": "2025-10-13T04:17:10.268207+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Crisis",
+      "#Paris"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m32e7clquj23"
   }
 }
