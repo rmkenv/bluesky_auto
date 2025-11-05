@@ -21826,5 +21826,82 @@
       "#Arctic"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vacffmda2i"
+  },
+  "3fb14590a375e167d7e1efbfe8628a45": {
+    "title": "Paris Agreement after 10 years",
+    "link": "https://www.nature.com/articles/s41558-025-02473-0",
+    "date_posted": "2025-11-05T17:13:43.671659+00:00",
+    "hashtags": [
+      "#Paris",
+      "#Agreement",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vkd352zv2w"
+  },
+  "40dd0ed61281882e2b7b70bf8d590506": {
+    "title": "Microbes wake up",
+    "link": "https://www.nature.com/articles/s41558-025-02488-7",
+    "date_posted": "2025-11-05T17:13:49.060191+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vkdabhko27"
+  },
+  "de61c6d65efd4378d088804c6bacd612": {
+    "title": "Climate anxiety and parenting practices",
+    "link": "https://www.nature.com/articles/s41558-025-02490-z",
+    "date_posted": "2025-11-05T17:13:54.296586+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vkdfbjr62k"
+  },
+  "86bce5a14748fab4cdee4104e1147f3f": {
+    "title": "Bees already fly in sub-optimal conditions",
+    "link": "https://www.nature.com/articles/s41558-025-02489-6",
+    "date_posted": "2025-11-05T17:13:59.598643+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vkdkd3a42n"
+  },
+  "2d7755fc726962b32c2231645d0d7d65": {
+    "title": "Expanding storms",
+    "link": "https://www.nature.com/articles/s41558-025-02491-y",
+    "date_posted": "2025-11-05T17:14:05.096390+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vkdpl4ds2d"
+  },
+  "a94afac517ef0e099b1f56600cbc3a55": {
+    "title": "Paris Agreement in a new era",
+    "link": "https://www.nature.com/articles/s41558-025-02492-x",
+    "date_posted": "2025-11-05T17:14:10.294979+00:00",
+    "hashtags": [
+      "#Paris",
+      "#Agreement",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vkdujuy42e"
+  },
+  "a4e138f280fddcfd206c971d6a463b4b": {
+    "title": "Expert retrospective on a decade of the Paris Agreement",
+    "link": "https://www.nature.com/articles/s41558-025-02477-w",
+    "date_posted": "2025-11-05T17:14:15.521301+00:00",
+    "hashtags": [
+      "#Paris",
+      "#Agreement",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m4vkdzizz42n"
   }
 }
