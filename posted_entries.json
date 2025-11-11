@@ -22552,5 +22552,16 @@
       "#Policy"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m5ed3dsf3x2d"
+  },
+  "10ac526dbd78c146f69008c451e9eaaa": {
+    "title": "Datacenters meet resistance over environmental concerns as AI boom spreads in Latin America",
+    "link": "https://www.theguardian.com/technology/2025/nov/10/data-centers-latin-america",
+    "date_posted": "2025-11-11T17:13:04.488855+00:00",
+    "hashtags": [
+      "#Environmental",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3m5en3gjw4h2r"
   }
 }
