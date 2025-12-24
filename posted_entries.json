@@ -25654,5 +25654,93 @@
       "#Weather"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mapjanxp2o2r"
+  },
+  "8840e3bffd93998ecf8b026fb4254931": {
+    "title": "Heatwave attribution in seconds",
+    "link": "https://www.nature.com/articles/s41558-025-02532-6",
+    "date_posted": "2025-12-24T11:13:45.786854+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq52jeind23"
+  },
+  "d58dad453c48ffef92605c2877e92ae8": {
+    "title": "Foraging constrained by heat and dark",
+    "link": "https://www.nature.com/articles/s41558-025-02530-8",
+    "date_posted": "2025-12-24T11:13:51.562118+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq52ousse2i"
+  },
+  "26f3cf7682ce64cde9469637a19a69e2": {
+    "title": "Rising lake and reservoir emissions",
+    "link": "https://www.nature.com/articles/s41558-025-02529-1",
+    "date_posted": "2025-12-24T11:13:56.903350+00:00",
+    "hashtags": [
+      "#Emissions",
+      "#Climate",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq52txuvf2b"
+  },
+  "f9db79a13cfde6364adb3a56d744c8f5": {
+    "title": "Inequalities in resilience and preparedness",
+    "link": "https://www.nature.com/articles/s41558-025-02531-7",
+    "date_posted": "2025-12-24T11:14:02.366990+00:00",
+    "hashtags": [
+      "#Resilience",
+      "#Climate",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq52z3c4g2s"
+  },
+  "00b9b709d023c1a304e801780e53401c": {
+    "title": "Rivers accelerate and slow as temperatures rise",
+    "link": "https://www.nature.com/articles/s41558-025-02508-6",
+    "date_posted": "2025-12-24T11:14:07.651733+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Arctic",
+      "#Carbon"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq5367u6v2r"
+  },
+  "ccb56c62f67000e5064087b1c9e4366a": {
+    "title": "Overlooked toll of climate change on migrant children in the Americas",
+    "link": "https://www.nature.com/articles/s41558-025-02525-5",
+    "date_posted": "2025-12-24T11:14:12.954356+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Policy",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq53dbner2y"
+  },
+  "c8e805a0bfa095f6b366533c0def06b3": {
+    "title": "Resolving the changing pace of Arctic rivers",
+    "link": "https://www.nature.com/articles/s41558-025-02512-w",
+    "date_posted": "2025-12-24T11:14:18.207684+00:00",
+    "hashtags": [
+      "#Arctic",
+      "#Climate",
+      "#Warming"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq53ibk5a2y"
+  },
+  "03d76bdee4697c775a63be7b488298d1": {
+    "title": "Deforestation-induced emissions from mining energy transition minerals",
+    "link": "https://www.nature.com/articles/s41558-025-02520-w",
+    "date_posted": "2025-12-24T11:14:23.619892+00:00",
+    "hashtags": [
+      "#Emissions",
+      "#Energy",
+      "#Climate"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3maq53nh5hp2c"
   }
 }
