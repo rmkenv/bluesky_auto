@@ -26424,5 +26424,38 @@
       "#Energy"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mbvyh6k2fp2y"
+  },
+  "f24ceaf571981de32d35ee04e5836244": {
+    "title": "Irreversibility in climate action",
+    "link": "https://www.nature.com/articles/s41558-025-02526-4",
+    "date_posted": "2026-01-08T17:22:10.831956+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Action",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mbwin4biuk2y"
+  },
+  "7eb1b9177748ef4e771d6b73de916501": {
+    "title": "AI-driven weather forecasts for climate adaptation in India",
+    "link": "https://www.nature.com/articles/s41558-025-02521-9",
+    "date_posted": "2026-01-08T17:22:16.290107+00:00",
+    "hashtags": [
+      "#Weather",
+      "#Climate",
+      "#Adaptation"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mbwinbirjq23"
+  },
+  "b3ace2ac06740174c6b7cd8828562714": {
+    "title": "Successes in climate action",
+    "link": "https://www.nature.com/articles/s41558-025-02546-0",
+    "date_posted": "2026-01-08T17:22:21.682075+00:00",
+    "hashtags": [
+      "#Climate",
+      "#Action",
+      "#ClimateAction"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mbwingmtnb2r"
   }
 }
