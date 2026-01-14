@@ -26776,5 +26776,38 @@
       "#Global"
     ],
     "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mce5luper72p"
+  },
+  "00cf83edb41343e60370645abb413b26": {
+    "title": "Climate change is melting glaciers and ice sheets faster than they can regrow",
+    "link": "https://yaleclimateconnections.org/2026/01/climate-change-is-melting-glaciers-and-ice-sheets-faster-than-they-can-regrow/",
+    "date_posted": "2026-01-14T12:32:17.789096+00:00",
+    "hashtags": [
+      "#Climate",
+      "#ClimateAction",
+      "#ClimateJustice"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mcf3abrh352y"
+  },
+  "db4d3a06eafb545449cb3f9151116ec6": {
+    "title": "Impacts of global warming on coastal flood risk to European surface transport infrastructure",
+    "link": "https://www.nature.com/articles/s41558-025-02518-4",
+    "date_posted": "2026-01-14T12:32:23.177303+00:00",
+    "hashtags": [
+      "#Global",
+      "#Warming",
+      "#Flood"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mcf3agvvgd2i"
+  },
+  "a0d0cd48f0a272620c45319bc265b70d": {
+    "title": "Coastal flood risk to European surface transport infrastructure at different global warming levels",
+    "link": "https://www.nature.com/articles/s41558-025-02510-y",
+    "date_posted": "2026-01-14T12:32:28.630503+00:00",
+    "hashtags": [
+      "#Flood",
+      "#Global",
+      "#Warming"
+    ],
+    "post_uri": "at://did:plc:uyq3lueipicwe4ffsbsf5lit/app.bsky.feed.post/3mcf3am4d2g2r"
   }
 }
